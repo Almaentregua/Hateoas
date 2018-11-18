@@ -30,6 +30,19 @@ public class GreetingController {
             @RequestParam(value = "name", required = false, defaultValue = "World") String name) {
 
         Greeting greeting = new Greeting(String.format(TEMPLATE, name));
+        greeting.add(linkTo(methodOn(GreetingController.class).greeting(name)).withSelfRel());
+        greeting.add(linkTo(methodOn(GreetingController.class).greeting2(name)).withSelfRel());
+        return new ResponseEntity<>(greeting, HttpStatus.OK);
+    }
+
+    @RequestMapping("/greetingThree")
+    public HttpEntity<Greeting> greeting3(
+            @RequestParam(value = "name", required = true) String name) {
+
+        Greeting greeting = new Greeting(String.format(TEMPLATE, name));
+        greeting.add(linkTo(methodOn(GreetingController.class).greeting(name)).withSelfRel());
+        greeting.add(linkTo(methodOn(GreetingController.class).greeting2(name)).withSelfRel());
+        greeting.add(linkTo(methodOn(GreetingController.class).greeting3("test")).withSelfRel());
         return new ResponseEntity<>(greeting, HttpStatus.OK);
     }
 }
